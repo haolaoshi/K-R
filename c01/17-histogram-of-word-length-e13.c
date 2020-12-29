@@ -64,7 +64,7 @@ main()
       int j = 0;
       for(; j < MAX_WORD; j++) 
         if(word_counts[j] >= i) printf("[*]");
-        else printf("...");
+        else printf("   ");
       printf("\n");
     }
     printf("TITLE: ");
