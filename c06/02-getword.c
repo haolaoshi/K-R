@@ -1,9 +1,9 @@
 /*
  * Exercise 6-1:
- * Our version of getword does not properly handle underscores,
- * string constants,
- * comments,
- * or preprocessor control lines.
+ * Our version of getword does not properly handle [1]underscores,
+ * [2]string constants,
+ * [3]comments,
+ * or[4] preprocessor control lines.
  * Write a better version.
  */
 
@@ -44,6 +44,15 @@ struct key{
 int getword(char*,int);
 int binsearch(char*,struct key *,int);
 
+void printme()
+{
+    int i ;
+    for(i = 0; i < NKEYS; i++)
+        if(keytab[i].count > 0) 
+            printf("\t[%s](%d)\n",keytab[i].name,keytab[i].count);
+    printf("\n");
+}
+
 int main(int argc, char *argv[])
 {
     int n = 0;
@@ -53,6 +62,8 @@ int main(int argc, char *argv[])
             if( (n = binsearch(word,keytab,NKEYS))>= 0)
                 keytab[n].count++;
     }
+    printme();
+
     for( n = 0; n < NKEYS; n++)
         if(keytab[n].count > 0)
             printf("%4d %s\n",keytab[n].count,keytab[n].name);
@@ -80,7 +91,7 @@ int binsearch(char* word,struct key tab[], int num)
 
 
 #define BUFFSIZE    100
-char* buf[BUFFSIZE];
+char buf[BUFFSIZE];
 int bufferp = 0;
 
 
@@ -109,14 +120,40 @@ int getword(char *word,int max)
     if(c != EOF)
         *w++ = c;
 
+    if(c == '_')//[1] 
+        while(isalpha(c = getch()))
+            ;//printf("___%c\n",c);
+    if(c == '"')//[2]
+        while((c = getch()) != '"' && c != '\n')
+            ;
+    if(c == '/')
+        if((c = getch()) == '*'){//[3]
+            while((c = getch()) != EOF && c != '\n') 
+                if(c == '*' && '/' == getch()) {
+                    break;
+                }
+        }else if(c == '/')//[3]
+            while((c = getch()) != EOF && c != '\n')
+                ;
+        else
+            printf("\tsplash\n");
+
+    if(c == '#')//[4]
+        while((c = getch()) != EOF && c != '\n')
+            ;
+
     if(!isalpha(c)){
         *w = '\0';
+//        printf("%c - is not alpha!\n",c);
         return c;
+    }else{
+//        printf("%c - is a alpha!\n",c);
     }
+
     for( ; --max > 0;w++)
         if(!isalnum(*w = getch())){
             ungetch(*w);
-            printf("%s\n",w);
+//           printf("%s\n",w);
             break;
         }
     *w = '\0';
