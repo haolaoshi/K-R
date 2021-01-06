@@ -47,7 +47,8 @@ char* exwords[]={
  };
 
 
-int linenumber = 0;
+int linenumber = 1;
+int carrage = 0;
 
 void printall(struct tnode *t)
 {
@@ -95,6 +96,7 @@ char* itoa(int num,char* p)
 struct tnode * addNode(char* word,struct tnode * t,int linenumber)
 {
     if(t == NULL){
+        printf("\t\tCreate:%s\n",word);
         t = talloc();
         t->word = strdup(word);
         t->lines[0] = linenumber;
@@ -103,10 +105,13 @@ struct tnode * addNode(char* word,struct tnode * t,int linenumber)
         int i =0;
         while(t->lines[i]) printf("Create-lines-> [%d]\n",t->lines[i++]);
     }else if(strcmp(t->word,word)> 0){
+        printf("\t\t--Left:\n");
         t->left = addNode(word,t->left,linenumber);
     }else if(strcmp(t->word,word)< 0){
+        printf("\t\t--Right:\n");
         t->right = addNode(word,t->right,linenumber);
     }else{
+        printf("\t\tEqual\n");
         int n = 0; 
         while(t->lines[n])
             printf(" [%d],",t->lines[n++]);
@@ -124,9 +129,10 @@ char getword(char* word,int lim)
         ;
     if(c != EOF)
         *w++ = c;
-
-    if(c == '\n') 
+    if(c == '\n' || carrage == 1){
         linenumber++;
+        carrage = 0;
+    }
 
    if(!isalpha(c)){
         *w = '\0';
@@ -138,10 +144,12 @@ char getword(char* word,int lim)
             ungetch(*w);
             break;//DO NOT FOREGET! 
         }
-    if(*w == '\n')
-        linenumber++;
-    *w = '\0';
 
+    if(*w == '\n')
+        carrage = 1; 
+        
+    *w = '\0';
+    printf("Got:%s\n",word);
     return word[0];
 }
 
@@ -164,6 +172,7 @@ int main(int argc, char *argv[])
     while(getword(word,MAXWORD) != EOF){
         if(isalpha(word[0]) && extra(word))
           root = addNode(word,root,linenumber);
+        else printf("\tNot add\n");
     }       
     printf("===========================\n");
     printall(root);
