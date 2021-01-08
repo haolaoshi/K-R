@@ -27,8 +27,15 @@ struct tnode{
     struct tndoe* right;
 };
 
+struct tfreq{
+    int count;
+    char* word[MAXWORDS];
+    struct tfreq* next;
+};
+
 int bufp = 0;
 char buffer[BUFFSIZE];
+struct tfreq *froot;
 
 int getch()
 {
@@ -70,6 +77,35 @@ struct tnode* talloc()
 {
     return (struct tnode*)malloc(sizeof(struct tnode));
 }
+
+struct freq*  addFreq(struct freq* freq, char* w, int c)
+{
+    
+    if(freq == NULL){
+        freq = (struct tfreq*)malloc(sizeof(struct tfreq));
+        freq->word[0] = strdup(w);
+        freq->word[1] = '\0';
+        freq->count = c + 1;
+        freq->next = NULL;
+    }else if(freq->count > (c + 1)) {
+        addFreq(w,c,freq->next);
+    }else if(freq->count < (c + 1)) {
+       struct tfreq* p = NULL; 
+       p = (struct tfreq*)malloc(sizeof(struct tfreq));
+       p->word[0]  = strdup(w);
+       p->count = (c + 1);
+       p->next = freq;
+       freq = p;
+    }else{
+       int i =0;
+       while(freq->word[i++]); 
+       freq->word[i++] = (char*)strdup(w);
+       freq->word[i] = NULL;
+       //printf("[%s]\n",freq->word);
+    }
+    return freq;
+}
+
 struct tnode* addNode(char* word,struct tnode * t)
 {
     if(t == NULL){
@@ -83,13 +119,26 @@ struct tnode* addNode(char* word,struct tnode * t)
     }else if(strcmp(word,t->word) < 0){
         t->left = addNode(word,t->left);
     }else {
+        froot = addFreq(t->word,t->count,froot);
         t->count++;
     }
 
     return t;
 }
 
-void printnode(struct tnode *t)
+void printfreq()
+{
+    if(froot != NULL){
+        while(froot && froot->count > 0){
+            printf("[%d]",froot->count);
+            int i = 0 ;
+            while(froot->word[i]) printf("(%s),",froot->word[i++]);
+            printf("\n");
+            froot= froot->next;
+        }   
+    }
+}
+void printnode(struct tnode* t)
 {
     if(t != NULL){
         printnode(t->left);
@@ -98,14 +147,6 @@ void printnode(struct tnode *t)
     }   
 }
 
-void sortseq(struct tnode *t)
-{
-    if(t != NULL){
-        
-
-
-    }
-}
 
 int main(int argc,char* argv[])
 {
@@ -116,7 +157,9 @@ int main(int argc,char* argv[])
             root = addNode(word,root);
     }
     printf("======================\n");
-    sortseq(root);
-    printnode(root);
+
+    printfreq();
+//    sortseq(root);
+//    printnode(root);
     return 0;
 }
