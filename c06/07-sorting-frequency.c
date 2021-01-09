@@ -1,5 +1,20 @@
 /*
- * Exercise 6-4
+07-sorting-frequency.c:97:16: warning: assignment from incompatible pointer type [enabled by default]
+p->next = freq;
+^
+07-sorting-frequency.c:98:13: warning: assignment from incompatible pointer type [enabled by default]
+freq = p;
+^
+07-sorting-frequency.c:101:18: error: dereferencing pointer to incomplete type
+while(freq->word[i++]);
+^
+07-sorting-frequency.c:102:12: error: dereferencing pointer to incomplete type
+freq->word[i++] = (char*)strdup(w);
+^
+07-sorting-frequency.c:103:12: error: dereferencing pointer to incomplete type
+freq->word[i] = NULL;
+                                                                                     *
+* Exercise 6-4
  * Write a program that prints the distinct words int its input 
  * sorted into decreasing order of requency of occurrence.
  * Precede each word by its count.
