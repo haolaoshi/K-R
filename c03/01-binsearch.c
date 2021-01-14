@@ -28,6 +28,7 @@ int binsearch(int x,int v[],int n)
 
 main()
 {
-    int v[] = { 1,3,6,5,6,6,3,9,6,3,6,6,6,9,9,6,8};
-    
+   int v[] = {1,2,3,4,5,6,7,8,9,10};
+   printf(" 5 in 10 = %d \n" , binsearch(5,v,10));
+
 }
