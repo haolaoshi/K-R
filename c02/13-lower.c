@@ -9,7 +9,8 @@ void lower(char s[])
 {
   int i = 0 ;
   while(s[i]){
-    s[i] = s[i] >= 'A' && s[i] <= 'Z' ? s[i] - 'A' + 'a' : s[i];
+    //s[i] = s[i] >= 'A' && s[i] <= 'Z' ? s[i] - 'A' + 'a' : s[i];
+    s[i] = s[i] >= 'A' && s[i] <= 'Z' ? s[i] + 32 : s[i];
     i++;
   }
  
