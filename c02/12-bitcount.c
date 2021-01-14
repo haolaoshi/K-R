@@ -28,9 +28,13 @@ int completion(int x)
     return x &= (x-1);
 }
 //a faster verion of bit count
-int bitcount2(int x)
+int bitcount2(unsigned x)
 {
-    
+   int b;
+   for(b=0; x !=0 ; x &=(x - 1)){
+      b++;
+    }
+   return b;
 }
 main()
 {
@@ -39,4 +43,5 @@ main()
 
     printf("\n%d contbit = %d",x,bitcount(x));
     printf("\nCompetion = %d ",completion(x));
+    printf("\nbitCount2 = %d ",bitcount2(x));
 }
