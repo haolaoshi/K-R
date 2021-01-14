@@ -1,6 +1,9 @@
 /*
  *
  * Example.
+ * Exercise 7-3:
+ *  Revise minprintf to handle more of the other facilities of printf.
+ *  like what ???
  */
 
 #include <stdio.h>
@@ -19,6 +22,7 @@ void minprintf(char *fmt,...)
             putchar(*p);
             continue;
         }
+
         switch(*++p){
         case    'd':
             ival = va_arg(ap,int);
