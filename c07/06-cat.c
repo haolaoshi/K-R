@@ -15,20 +15,16 @@ main(int argc,char *argv[])
     if(argc == 1)
         filecopy(stdin,stdout);
     else
-         fp = fopen(*++argv,"r");
-        
-        //while(--argc > 0)
-         /*   if((fp = fopen(*++argv,"r")) == NULL){
+        while(--argc > 0)
+           if((fp = fopen(*++argv,"r")) == NULL){
                 printf("#1");
                 printf("cat : can't open %s\n",*argv);
                 return 1;
             }else{
                 printf("#2");
-                filecopy(fp, *argv);
+                filecopy(fp, stdout);
                 fclose(fp);
             } 
-            */
-      if(fp != NULL)  filecopy(fp,stdout); 
     return 0;
 
 }
