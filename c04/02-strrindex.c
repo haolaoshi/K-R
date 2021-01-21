@@ -4,33 +4,28 @@
  *      Write the function strrindex(s,t),wihich returns the postion of the rightmost occurrence of t in s , or -1 if there is none.
  *
  */
-
-
 #include <stdio.h>
-
-
+#include <string.h>
 #define MAXLEN  1000
-#define PATTERN oo
+#define PATTERN "aa"
 
 int strrindex(char s[],char t[]);
 int anotherline(char s[]);
-
 
 main()
 {
     char c;
     int pos= 0;
     char s[MAXLEN];
-
-    while(anotherline(s) > 0){
-
+    int len =0;
+    while((len = anotherline(s)) > 0){
        pos = strrindex(s,PATTERN); 
        if(pos > 0){
         printf("\nBingo! %s",s);
        }
-
+       
+       printf("\n len = %d, find %s  in %s , pos=%d\n",len,PATTERN,s,pos);
     }
-
 }
 
 int anotherline(char s[])
@@ -46,14 +41,15 @@ int anotherline(char s[])
 int strrindex(char s[],char t[])
 {
     int i,j;
-    for(i = 0; s[i]; i++){
-
-        for(j=0;t[j];j++){
-        
-
-        }
-
+    int z = 0;
+    for(i = strlen(s)-1;i>= 0 ; i--){
+        z = i;
+        j = strlen(t) - 1;
+        if(t[j] != s[i]) continue;
+        else 
+        for(j=strlen(t) - 2,i -= 1; j>=0 && t[j] == s[i] ;i--,j--);
+        if(j == 0) return i;
+        else i=z;
     }
-
-
+    return -1;
 }
