@@ -31,11 +31,10 @@ int anotherline(char s[],int lim)
 
     if(c == '\n') s[i++] = c;
     s[i] = '\0';
-    printf("%s\n",s);    
+//    printf("%s\n",s);    
     return i;
-
 }
-
+//if t in s 
 int strindex(char s[],char t[])
 {
     int i,j,k;
