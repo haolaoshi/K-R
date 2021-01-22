@@ -45,11 +45,17 @@ int strrindex(char s[],char t[])
     for(i = strlen(s)-1;i>= 0 ; i--){
         z = i;
         j = strlen(t) - 1;
-        if(t[j] != s[i]) continue;
-        else 
-        for(j=strlen(t) - 2,i -= 1; j>=0 && t[j] == s[i] ;i--,j--);
-        if(j == 0) return i;
-        else i=z;
+        printf("\n\ti = %d,s[i]=%c, [strlen(%s)] = %d,j=%d\n",i,s[i],t,strlen(t),j);
+        if(t[j] != s[i]){
+            printf("\t\t %c , %c, \n",t[j], t[i]);
+            continue;
+        }
+        else{ 
+            for(; i>=0 && j>=0 && t[j] == s[i] ;i--,j--);
+            printf("\t\t----j = %d, i = %d",j,i);
+            if(j == -1) return i+1;
+            else i=z;
+        }
     }
     return -1;
 }
