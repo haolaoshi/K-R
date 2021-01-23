@@ -32,30 +32,48 @@ if(DEBUG)	printf("\n pop a %g,sp = %d",val[sp-1],sp);
 	return 0.0;
 }
 
+
 int getch(void);
 void ungetch(int);
-
+int slash = 10;
 int getop(char s[])
 {
 	int i,c;
+	
+if(DEBUG) while(--slash > 0) printf("-");
+printf("\n");
+
 	while((s[0] = c = getch()) == ' ' || c == '\t')
 		;
-	s[1] = '\0';
-	if(!isdigit(c) && c != '.'){
-if(DEBUG) printf("\n\tget op is not a number %c",c);
+
+	
+	if(!isdigit(c) && c != '.' && c != '-' && c != '+'){
+		s[1] = '\0';
+if(DEBUG) printf("\n\t operators but not +/- %c",c);
 		return c;   //not a number
 	}
-	i = 0;
+	if(c == '-' || c == '+'){
+		if(!isdigit(s[++i] = c = getch())){
+			s[1] = '\0';
+if(DEBUG) printf("\n\t2 operators is + or -  %c",c);
+			return s[0];	
+		} 
+if(DEBUG)	printf("\n\t FOUND A NEGATIVE NUMBER...%c",s[i]);
+	}
+
+//	i = 0;
 	if(isdigit(c))
 		while(isdigit(s[++i] = c = getch()))
 			;
+	s[i] = '\0';
+if(DEBUG) printf("\n\t Number or Negative is %s, i = %d",s,i);
 	if(c == '.')
 		while(isdigit(s[++i] = c = getch()))
 			;
 	s[i] = '\0';
 	if(c != EOF)
 		ungetch(c);
-	printf("\n\tget op is Number %s",s);
+if(DEBUG)	printf("\n\tFinally, get op is Number %s,i=%d",s,i);
 	return NUMBER;
 }
 
@@ -77,3 +95,5 @@ void ungetch(int c)
 	else
 		buf[bufp++] = c;
 }
+
+

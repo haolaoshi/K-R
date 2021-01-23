@@ -1,13 +1,13 @@
 /*
- *
- * Reverse Polish calculator
- *
+ * Example. Reverse Polish calculator
+ * Exercise 4-3. Given the basic framework , it's straightforward to extend the
+ * 		calculator. Add the modulus (%) operator and provisions for negative numbers.
  *
  */
 
 #include <stdio.h>
 #include <stdlib.h>
-#define DEBUG 0	
+#define DEBUG   0	
 #define MAXOP	100
 #define NUMBER	'0'
 #include "06-stack.c"
@@ -21,7 +21,7 @@ main()
 	int type;
 	double op2;
 	char s[MAXOP];
-	
+	int a,b ;	
 	while((type = getop(s)) != EOF){
 if(DEBUG) printf("\nswitch type = %c",type);
 		switch(type){
@@ -44,6 +44,11 @@ if(DEBUG) printf("\nswitch type = %c",type);
 				push(pop() / op2);
 			else 
 				printf("error : zero divisor!\n");
+			break;
+		case '%':
+			a = pop();
+			b = pop();
+			push(b  % a);
 			break;
 		case '\n':
 			printf("\t%.8g\n",pop());
