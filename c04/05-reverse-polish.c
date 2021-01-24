@@ -2,7 +2,23 @@
  * Example. Reverse Polish calculator
  * Exercise 4-3. Given the basic framework , it's straightforward to extend the
  * 		calculator. Add the modulus (%) operator and provisions for negative numbers.
+ * Exercise 4-4. Add commands to print the top element of the stack without popping,
+ * 		to duplicate it,and to swap the top two elements. 
+ * 		Add a command to clear the stack.
+ * Exercise 4-5. Add access to library function like sin,exp,and pow.
+ * 		See <math.> in Appendix B,Section 4.
+ * Exercise 4-6. Add commands for handling variables. (It's easy to provide twenty-six 
+ * 		variables with signle-letters 
+ * Exercise 4-7. Write a routine ungets(s) taht will push back an entire stirng onto 
+ * 		the input. Should ungets know about buf and bufp,or should it just use ungetch?
+ * Exercise 4-8. Suppose that there will never be more than one character of pushback. 
+ * 		Modify getch and ungetch accodingly.
+ * Exercise 4-9. Our getch and ungetch do not handle a pushed-back EOF correctly. Decide
+ * 		what their properties ought to be if an EOF is pushed back,than implement.
  *
+ * Exercise 4-10. An alternate organization use getline to read an entire input line.
+ * 		this makes getch and ungetch unnecessary.Revise the calculator to use this appro
+ * 		ach.
  */
 
 #include <stdio.h>
@@ -52,6 +68,12 @@ if(DEBUG) printf("\nswitch type = %c",type);
 			break;
 		case '\n':
 			printf("\t%.8g\n",pop());
+			break;
+		case 's':
+			show();
+			break;
+		case 'c':
+			clear();
 			break;
 		default:
 			printf("error: unknown command %s\n ",s);

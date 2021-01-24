@@ -32,6 +32,17 @@ if(DEBUG)	printf("\n pop a %g,sp = %d",val[sp-1],sp);
 	return 0.0;
 }
 
+void show(){
+	double v1[MAXVAL] ;
+	strcpy(v1,val);
+	
+	int seq = 0;
+	while(v1[seq] && seq<MAXVAL) printf("%g",v1[seq++]);
+}
+
+void clear(){
+	sp = 0;
+}
 
 int getch(void);
 void ungetch(int);
