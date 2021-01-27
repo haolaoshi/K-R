@@ -32,4 +32,21 @@ void month_day(int year, int yearday, int *pmonth,int *pday)
         yearday -= daytab[leap][i];
     *pmonth = i;
     *pday = yearday;
+    printf("%d  %d \n",*pmonth,*pday);
+}
+
+main()
+{
+    int year = 2021;
+    int day = 188;
+    int month = 2;
+
+    printf("Today year = 2021 month = 7 day = 7 , day of year = %d \n",day_of_year(2021,7,7));
+    /*
+     * space is necessary 
+     */
+    int *pmonth = malloc(4); 
+    int *pday = malloc(4);
+    month_day(2021,188,pmonth,pday);
+   printf("This year of 188 yay is %d month %d day\n",*pmonth,*pday);
 }
