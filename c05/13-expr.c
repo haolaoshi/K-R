@@ -10,34 +10,67 @@
 #include <stdio.h>
 
 
-
+//2 3 4 + *
 main(int argc, char *argv[])
 {
     int lvalue = 0 , rvalue = 0;
-    int *p = malloc(2*4);
+    int *p = malloc(4*10);
+    memset(p,0,40);
+    char c ; 
+    printf("%lx, argc = %d\n",p,argc);
+    
+    int i = 0; 
+    for(i = 0; argv[i] != NULL && i < argc ; i++) printf("\n%s",argv[i]);
+        while(argv != NULL  && *argv != NULL ){
+            i = 0;
+           ++argv;
+            while(*argv[i]  == ' ') i++; 
+            c = *argv[i];
 
-    while(--argc > 0)
-        if(isdigit(*++argv)){
-            *p++ = *++argv; 
-        }else{//is alpha
-            switch(*++argv){
+            
+            printf("\n");
+            switch(c){
+            case '0':
+            case '1':
+            case '2':
+            case '3':
+            case '4':
+            case '5':
+            case '6':
+            case '7':
+            case '8':
+            case '9':
+               lvalue = c - '0';
+               *p = lvalue;
+               p++;
+               printf("%lx,data:%d , ",p,lvalue);
+               break;
             case '+':
-                lvalue += *p + *--p;
+                lvalue = *--p;
+                rvalue = *--p;
+                rvalue = lvalue + rvalue;
+                printf("%lx,add:  = %d\n",p, rvalue );
+                *p++ = rvalue;
                 break;
             case '-':
-                rvalue = *p; 
-                lvalue += *--p - rvalue; 
+                rvalue = *--p; 
+                lvalue = *--p; 
+                *p++ = lvalue - rvalue;
                 break;
             case '*':
-                lvalue += *p * *--p;
+                rvalue = *--p;
+                *p++ = *--p * rvalue;
+                printf("multi = %d\n",*p);
                 break;
             case '/':
-                rvalue = *p;
-                lvalue += *p / rvalue;
+                rvalue = *--p;
+                *p++ = *--p / rvalue;
                 break;
             default:
-                printf("unhadle errors\n");
+                printf("%lx,sum = %d \n",p,*--p);
+                
                 break;
             }
-        }
+      }
+      if(*--p) printf("total = %d \n",*p);
 }
