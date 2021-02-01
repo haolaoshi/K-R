@@ -83,6 +83,5 @@ int main(int argc,char *argv[])
         putchar('_');
         --spaces;
     }
-
     return 0;
 }
