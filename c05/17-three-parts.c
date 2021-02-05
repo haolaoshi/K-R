@@ -8,13 +8,14 @@
 
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
 #define DEBUG       0 
 #define MAXLINES    5000
 char *lineptr[MAXLINES];
 
 int readlines(char *lineptr[], int nlines);
 void writelines(char *linptr[],int nlines);
-void qsort(void *lineptr[],int left,int right,
+void myqsort(void *lineptr[],int left,int right,
             int (*comp)(void *,void *));
 int numcmp(char *,char *);
 
@@ -29,7 +30,7 @@ main(int argc, char* argv[])
 if(DEBUG)        printf("-----------%d------------\n",nlines);
         writelines(lineptr,nlines);
 if(DEBUG)        printf("****************************\n");
-        qsort((void **)lineptr,0,nlines - 1,
+        myqsort((void **)lineptr,0,nlines - 1,
             (int (*)(void*,void*))(numeric ? numcmp : strcmp));
         writelines(lineptr,nlines);
         return 0;
@@ -40,11 +41,11 @@ if(DEBUG)        printf("****************************\n");
     } 
 }
 
-void qsort(void *v[],int left,int right,
+void myqsort(void *v[],int left,int right,
         int (*comp)(void *,void *)){
     int i,last;
     void swap(void *v[],int ,int);
-printf("==============qsort===========%s , %d , %d \n",*v,left,right);
+printf("==============myqsort===========%s , %d , %d \n",*v,left,right);
     if(left >= right)
         return; //do nothing if array contains fewer than two ele.
     swap(v,left,(left + right) /2);// move partition element.
@@ -56,8 +57,8 @@ printf("==============qsort===========%s , %d , %d \n",*v,left,right);
         if((*comp)(v[i],v[left]) < 0)
             swap(v,++last,i);
     swap(v,left,last);
-    qsort(v,left,last - 1,comp);
-    qsort(v,last+1,right,comp);
+    myqsort(v,left,last - 1,comp);
+    myqsort(v,last+1,right,comp);
 }
 
 int numcmp(char *s1,char *s2)
@@ -65,7 +66,7 @@ int numcmp(char *s1,char *s2)
     double v1,v2;
     v1 = atof(s1);
     v2 = atof(s2);
-
+if(DEBUG) printf("NUMCMP:  %s//%.0f - %s//%.0f\n",s1,v1,s2,v2);
     if(v1 < v2)
         return -1;
     else if(v1 > v2)
