@@ -13,6 +13,7 @@
 #define MAXLINE 1000
 #define MAXLEN  1000
 #define BUFFSIZE    1000
+#define DEBUG   0
 
 static char allocbuf[BUFFSIZE];
 static char* allocpf = allocbuf; 
@@ -43,6 +44,7 @@ int getaline(char line[], int max)
 void myswap(char* v[],int i,int j)
 {
     if(i > j) return ;
+if(DEBUG) printf("swap v[%d]=%s --- v[%d]=%s\t\t\t\t(%s,%s,%s,%s)\n",i,v[i],j,v[j],v[0],v[1],v[2],v[3]);
     char* p = v[i];
     v[i] = v[j];
     v[j] = p;
@@ -70,18 +72,24 @@ void writelines(char* lineptr[],int nlines)
 void myqsortr(void *v[],int left, int right, int (*comp)(void *,void *))
 {
     int i,last;
-    if(left > right ) return ;
-
-printf("reverse version sort!\n");
+    if(left > right ) {
+if(DEBUG)        printf("oops left > right \n");    
+        return ;
+    }
+if(DEBUG) printf("reverse version sort!\n");
     myswap(v,left,(left + right)/2);
 
     last = left;
+if(DEBUG)    printf("myqsort-r: last = %d\n",last);
+
     for(i= left + 1; i <= right; i++)
-        if((*comp)(v[i],v[left])> 0)
+        if((*comp)(v[i],v[left])> 0){
+     if(DEBUG)       printf("\t\tv[%d]>v[%d] ---- need swap.\n",i,left);
             myswap(v,++last,i);
+        }
     myswap(v,left,last);
-    myqsort(v,left,last - 1,comp);
-    myqsort(v,last + 1,right, comp);
+    myqsortr(v,left,last - 1,comp);
+    myqsortr(v,last + 1,right, comp);
 
 }
 /***Cannot write out ***/
@@ -133,7 +141,7 @@ int main(int argc , char* argv[])
         reverse = 1;
     }
 
-printf(" r = %d , n = %d \n",reverse, numeric);
+if(DEBUG) printf(" r = %d , n = %d \n",reverse, numeric);
 
     if((nlines = readlines(lineptr,MAXLINE))>= 0){
         if(reverse) 
