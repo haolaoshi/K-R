@@ -61,13 +61,26 @@ int binsearch(char *word,struct key tab[],int n)
     }
     return -1;
 }
-#define MAXBUF  1024
-static char buf[MAXBUF];
+#define BUFFSIZE	100
 
-int getch()
+char buf[BUFFSIZE];
+int bufp = 0;
+
+int getch(void)
 {
+
 	return (bufp > 0) ? buf[--bufp] : getchar();
 }
+
+void ungetch(int c)
+{
+	if(bufp >= BUFFSIZE)
+		printf("ungetch : too many characters.\n");
+	else
+		buf[bufp++] = c;
+}
+
+
 int getword(char *word,int lim)
 {
     int c,getch(void);
