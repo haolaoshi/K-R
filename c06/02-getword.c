@@ -80,7 +80,7 @@ int binsearch(char* word,struct key tab[], int num)
 
 
 #define BUFFSIZE    100
-char* buf[BUFFSIZE];
+char buf[BUFFSIZE];
 int bufferp = 0;
 
 
