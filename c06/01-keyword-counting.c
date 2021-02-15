@@ -9,7 +9,7 @@
 #include <stdio.h>
 #include <ctype.h>
 #include <string.h>
-
+#define DEBUG  0 
 #define MAXWORD 100
 struct key{
     char *word;
@@ -19,8 +19,13 @@ struct key{
     "break",0,
     "case",0,
     "char",0,
-    "continue",0
-
+    "const",0,
+    "continue",0,
+    "default",0,
+    "if",0,
+    "void",0,
+    "volatile",0,
+    "while",0
 };
 int getword(char*,int);
 int binsearch(char*,struct key *,int);
@@ -31,20 +36,24 @@ main()
     int n;
     char word[MAXWORD];
     while(getword(word,MAXWORD) != EOF )
-        if(isalpha(word[0]))
-            if((n = binsearch(word,keytab,NKEYS)) >= 0)
+        if(isalpha(word[0])){
+            if((n = binsearch(word,keytab,NKEYS)) >= 0){
                 keytab[n].count++;
-
+     if(DEBUG)  printf("bingoo! got %s \n",word);
+            }else 
+     if(DEBUG)  printf("cannot find a %s\n",word);
+        }
     for(n =0; n < NKEYS; n++)
         if(keytab[n].count > 0)
             printf("%4d  %s\n",keytab[n].count,keytab[n].word);
-
+        else printf(".");
     return 0;
 }
 
 int binsearch(char *word,struct key tab[],int n)
 {
 
+if(DEBUG) printf("\tbinsearch [%s],%d===\n",word,n);
     int cond;
     int low ,high,mid;
 
@@ -52,6 +61,7 @@ int binsearch(char *word,struct key tab[],int n)
     high = n - 1;
     while(low <= high){
         mid = (low + high)/2;
+ if(DEBUG)       printf("(%d,%d,%d) strcmp %s  == %s \n",low,mid,high,word,tab[mid].word);
         if((cond = strcmp(word,tab[mid].word)) < 0)
             high = mid - 1;
         else if(cond > 0)
@@ -92,6 +102,9 @@ int getword(char *word,int lim)
 
     if(c != EOF)
         *w++ = c;
+    else
+        printf("This is a EOF !\n");
+
     if(!isalpha(c)){
         *w = '\0';
         return c;
@@ -101,6 +114,7 @@ int getword(char *word,int lim)
             ungetch(*w);
             break;
         }
-    *w = '\t';
+    *w = '\0';
+if(DEBUG)    printf("%c\n",word[0]);
     return word[0];
 }
